@@ -190,29 +190,24 @@ def index():
 def login():
     username = request.form.get("username")
     password = request.form.get("password")
+    login = request.form.get("login")
+    signup = request.form.get("signup")
     credentials = bytes(username+password, 'utf-8')
     h = hashlib.new('sha256')
     h.update(credentials)
     hashedCredentials = h.hexdigest()
     user = User.query.filter_by(HashedCredentials=hashedCredentials).first()
-    if(user == None):
-        return redirect('/home/')
-    return redirect('/lists/')
-    
-@app.route('/signup/', methods=['POST'])
-def signup():    
-    username = request.form.get("username")
-    password = request.form.get("password")
-    credentials = bytes(username+password, 'utf-8')
-    h = hashlib.new('sha256')
-    h.update(credentials)
-    hashedCredentials = h.hexdigest()
-    user = User.query.filter_by(HashedCredentials=hashedCredentials).first()
-    if(user != None):
-        return redirect('/home/')
-    newUser = User(username, hashedCredentials)
-    db.session.add(newUser)
-    db.session.commit()
+
+    if(login):
+        print("in login")
+        if(user == None):
+            return redirect('/home/')
+    if(signup):
+        print("in signup")
+        if(user == None):
+            newUser = User(username, hashedCredentials)
+            db.session.add(newUser)
+            db.session.commit()
     return redirect('/lists/')
     
 @app.route('/lists/')
