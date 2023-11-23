@@ -205,7 +205,7 @@ def login():
     if(signup):
         print("in signup")
         if(user == None):
-            newUser = User(username, hashedCredentials)
+            newUser = User(Username=username, HashedCredentials=hashedCredentials)
             db.session.add(newUser)
             db.session.commit()
     return redirect('/lists/')
