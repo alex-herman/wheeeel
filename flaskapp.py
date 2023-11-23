@@ -4,6 +4,8 @@ from sqlalchemy import desc
 from datetime import datetime
 import json
 import hashlib
+import uuid
+#print uuid.uuid4()
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
@@ -16,10 +18,12 @@ class User(db.Model):
   HashedCredentials = db.Column(db.String(64), nullable=False)
 
 class Task(db.Model):
-  owner = db.Column(db.String(24), nullable=False, primary_key=True)
+  List = db.Column(db.String(24), nullable=False, primary_key=True)
   name = db.Column(db.String(200), nullable=False, primary_key=True)
   desc = db.Column(db.String(400))
   
+class List(db.Model):
+    id = db.Column(db.String(36), nullable=False, primary_key=True)
 
 
 #@app.route('/delete-document/', methods=['POST'])
@@ -184,7 +188,31 @@ def index():
   
 @app.route('/login/', methods=['POST'])
 def login():
-    print(request.form)
+    username = request.form.get("username")
+    password = request.form.get("password")
+    credentials = bytes(username+password, 'utf-8')
+    h = hashlib.new('sha256')
+    h.update(credentials)
+    hashedCredentials = h.hexdigest()
+    user = User.query.filter_by(HashedCredentials=hashedCredentials).first()
+    if(user == None):
+        return redirect('/home/')
+    return redirect('/lists/')
+    
+@app.route('/signup/', methods=['POST'])
+def signup():    
+    username = request.form.get("username")
+    password = request.form.get("password")
+    credentials = bytes(username+password, 'utf-8')
+    h = hashlib.new('sha256')
+    h.update(credentials)
+    hashedCredentials = h.hexdigest()
+    user = User.query.filter_by(HashedCredentials=hashedCredentials).first()
+    if(user != None):
+        return redirect('/home/')
+    newUser = User(username, hashedCredentials)
+    db.session.add(newUser)
+    db.session.commit()
     return redirect('/lists/')
     
 @app.route('/lists/')
