@@ -1,0 +1,28 @@
+body {
+	background-color: rgba(255, 165, 0, 0.15);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-flow: column nowrap;
+	justify-content: center;
+}
+
+.login{
+	display: flex;
+    justify-content: center;
+    align-items: center;
+	width: 100%;
+}
+
+.login-element{
+	background-color: rgba(255,255,255,.33);
+	border: 2px solid #ff4d01;
+	border-radius: 10px;	
+	text-align: center;
+}
+
+
+
+
+
+
