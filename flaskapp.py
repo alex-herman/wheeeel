@@ -76,6 +76,7 @@ def lists(user):
 @app.route('/newlist/', methods=['POST'])
 def newlist():
     username = request.form.get("username")
+    name = request.form.get("name")
     newList = List(owner=username, name=request.form.get("name"))
     db.session.add(newList)
     db.session.commit()
