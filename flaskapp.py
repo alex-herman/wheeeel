@@ -12,8 +12,9 @@ db = SQLAlchemy(app)
 
 
 class Task(db.Model):
-    listid = db.Column(db.String(7), nullable=False, primary_key=True)
-    name = db.Column(db.String(200), nullable=False, primary_key=True)
+    id = db.Column(db.String(36), nullable=False, primary_key=True)
+    listid = db.Column(db.String(7), nullable=False)
+    name = db.Column(db.String(200), nullable=False)
     desc = db.Column(db.String(400))
   
   
@@ -35,7 +36,7 @@ def index():
 def list(id):
     tasks = Task.query.filter_by(listid=id).all() 
     print(tasks)
-    return render_template('list.html', id=id, tasks=tasks)   
+    return render_template('list.html', id=id, tasks=tasks)
    
    
 @app.route('/newlist', methods=['POST'])
@@ -50,6 +51,16 @@ def newlist():
     db.session.add(newList)
     db.session.commit()
     return redirect('/list/'+id)
+    
+    
+@app.route('/newtask', methods=['POST'])
+def newtask():
+    listid = request.form.get("listid")
+    
+    newTask = Task(id=str(uuid.uuid4()), listid=listid, name="", desc="")
+    db.session.add(newTask)
+    db.session.commit()
+    return redirect('/list/'+listid)
 
 
 if __name__ == "__main__":
