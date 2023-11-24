@@ -70,7 +70,6 @@ def login():
 @app.route('/lists/<user>')
 def lists(user):
     lists = List.query.filter_by(owner=user).all()
-    print(lists)
     return render_template('lists.html', username=user, lists=lists)
 
 @app.route('/newlist/', methods=['POST'])

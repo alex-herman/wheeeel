@@ -12,6 +12,13 @@
 		<input class="element" type="text" id="name" name="name" placeholder="list name">
 		<input class="element" type="submit" name="new" value="Create List">
 	</form> 
+	
+	<div class="lists">
+		{% for list in lists %}
+			{{list.name}}
+		{% endfor %}
+	</div>
+	
 	<img class="sebpic" src="../static/img/seb.png" alt="sebby">
 </body>
 {% endblock %}
