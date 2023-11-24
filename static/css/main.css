@@ -14,13 +14,18 @@ body {
 	width: 100%;
 }
 
-.login-element{
+.element{
 	background-color: rgba(255,255,255,.33);
 	border: 2px solid #ff4d01;
 	border-radius: 10px;	
 	text-align: center;
 }
 
+.sebpic{
+	position: fixed;
+	bottom: 0px;
+	z-index: -999;
+}
 
 
 

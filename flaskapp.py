@@ -14,169 +14,17 @@ db = SQLAlchemy(app)
 
 #https://www.youtube.com/watch?v=jTiyt6W1Qpo&ab_channel=PrettyPrinted
 class User(db.Model):
-  Username = db.Column(db.String(24), nullable=False, primary_key=True)
-  HashedCredentials = db.Column(db.String(64), nullable=False)
+    Username = db.Column(db.String(24), nullable=False, primary_key=True)
+    HashedCredentials = db.Column(db.String(64), nullable=False)
 
 class Task(db.Model):
-  List = db.Column(db.String(24), nullable=False, primary_key=True)
-  name = db.Column(db.String(200), nullable=False, primary_key=True)
-  desc = db.Column(db.String(400))
+    List = db.Column(db.String(24), nullable=False, primary_key=True)
+    name = db.Column(db.String(200), nullable=False, primary_key=True)
+    desc = db.Column(db.String(400))
   
 class List(db.Model):
-    id = db.Column(db.String(36), nullable=False, primary_key=True)
-
-
-#@app.route('/delete-document/', methods=['POST'])
-#def delete_document():
-#  json = request.get_json()
-#  nodesToDelete = Node.query.filter_by(document=json["document_name"]).all() 
-#  for node in nodesToDelete:
-#    Node.query.filter_by(document=json["document_name"], divId=node.divId).delete()
-#  Document.query.filter_by(name=json["document_name"]).delete()
-#  db.session.commit() 
-#  return "DELETE DOCUMENT"
-  
-
-#@app.route('/cudownload/<document_name>', methods=['GET'])
-#def cudownload(document_name):
-#    component_universe = {}
-#    
-#    nodes = Node.query.filter_by(document=document_name).all()
-#    for node in nodes:
-#        children_nodes = Node.query.filter_by(document=document_name, parent=node.divId).all()
-#        children_texts = []
-#        for child_node in children_nodes:
-#            children_texts.append(child_node.text)
-#        if node.text not in component_universe:
-#            component_universe[node.text] = []
-#        
-#        component_universe[node.text].append(children_texts)
-#        if len(component_universe[node.text]) > 1 and [] in component_universe[node.text]:
-#            component_universe[node.text].remove([]) #we dont want a node to have an atomic breakdown if there is a real breakdown
-#  
-#    notes = Notes.query.filter_by(document=document_name).first()
-#  
-#    data = {}
-#    data["component_universe"] = component_universe
-#    data["file_name"] = document_name
-#    return data
-
-
-#@app.route('/download/<document_name>/<largestDivId>', methods=['GET'])
-#def download(document_name, largestDivId):
-#    dict = {}
-#    trees = []
-#    roots = Node.query.filter_by(document=document_name, parent=0).all()
-#    notes = Notes.query.filter_by(document=document_name).first().text
-#    for root in roots:
-#        trees.append(makeTree(document_name, root.divId))
-#    dict["document_name"] = document_name
-#    dict["largestDivId"] = largestDivId
-#    dict["trees"] = trees
-#    dict["notes"] = notes
-#    return dict
-
-
-#@app.route('/save/', methods=['POST'])
-#def save():
-#  print("in flaskapp.save")  
-#  json = request.get_json()  
-#  print(json["notes"])  
-#  documentObj = Document.query.filter_by(name=json["document_name"]).first()
-#  if documentObj is not None:  
-#    print("document exists")
-#    setattr(documentObj, 'largestDivId', json["largestDivId"])
-#  else:
-#    documentObj = Document(name=json["document_name"], largestDivId=json["largestDivId"])
-#    db.session.add(documentObj)
-#  for node in json["nodes"]:
-#    nodeObj = Node.query.filter_by(divId=node["node"]["id"], document=json["document_name"]).first()  
-#    if nodeObj is not None:
-#      print("node exists, overwritting")
-#      setattr(nodeObj, 'parent', node["parent"]["id"])
-#      setattr(nodeObj, 'text', node["node"]["text"])
-#    else:
-#      nodeObj = Node(divId=node["node"]["id"], document=json["document_name"], parent=node["parent"]["id"], text=node["node"]["text"])
-#      db.session.add(nodeObj)
-#      
-#  for divId in json["nodesToDelete"]:
-#    Node.query.filter_by(document=json["document_name"], divId=divId).delete()
-#    
-#  notesObj = Notes.query.filter_by(document=json["document_name"]).first()
-#  if notesObj is not None:  
-#    print("notes exists")
-#    setattr(notesObj, 'text', json["notes"])
-#    setattr(notesObj, 'document', json["document_name"])
-#  else:
-#    notesObj = Notes(document=json["document_name"], text=json["notes"])
-#    db.session.add(notesObj)
-#  
-#  db.session.commit() 
-#  return "SAVED TO DATABASE"
-  
-  
-#http://www.cs.cmu.edu/~15110-f19/slides/week8-2-trees.pdf
-#def makeTree(document_name, divId):
-#  tree = {}
-#  children = []
-#  childrenObjs = Node.query.filter_by(parent=divId, document=document_name).all()  
-#  for childObj in childrenObjs:
-#    children.append( makeTree(document_name, childObj.divId) ) 
-#  tree["divId"] = divId
-#  tree["text"] = Node.query.filter_by(divId=divId, document=document_name).first().text
-#  tree["parent"] = Node.query.filter_by(divId=divId, document=document_name).first().parent
-#  tree["children"] = children
-#  return tree
-
-
-#@app.route('/document/<document_name>', methods=['GET']) #Currently deprecated. Will matter again in the future once the DB is re-connected
-#@app.route('/document/')
-#def document(document_name=""):
-#  trees = []
-#  document = Document.query.filter_by(name=document_name).first()
-#  notesObj = Notes.query.filter_by(document=document_name).first()
-#  notes = ""
-#  largestId = 1
-#  if(document_name == "" or document is None):
-#    trees = []
-#  else:
-#    roots = Node.query.filter_by(document=document_name, parent=0).all()
-#    for root in roots:
-#        trees.append(makeTree(document_name, root.divId))
-#  if document is not None:
-#    largestId = document.largestDivId
-#  if notesObj is not None:
-#    notes = notesObj.text
-#    
-#  return render_template('tree.html', trees=trees, largestId=largestId, document_name=document_name, notes=notes)
-  
-
-#@app.route('/documents/')
-#def documents():
-#    documents = db.session.query(Document).all()
-#    return render_template('documents.html', documents=documents)
-  
-  
-#@app.route('/simulation/')
-#def simulation():
-#    return render_template('simulation.html')
- 
- 
-#@app.route('/simulation/run', methods=['POST'])
-#def simulation_run():
-#    data = json.loads(request.data)
-#    athlete_skillsets = list(data["athlete_probs"].keys())
-#    coach_skillsets = list(data["coach_probs"].keys())
-#    athletes = []
-#    coaches = []
-#    
-#    for skillset in athlete_skillsets:
-#        athletes.extend(lh.generate_entities(int(data["athlete_probs"][skillset]), json.loads(skillset)))
-#    for skillset in coach_skillsets:
-#        coaches.extend(lh.generate_entities(int(data["coach_probs"][skillset]), json.loads(skillset)))
-#    
-#    return json.dumps(lh.run(athletes, coaches, data["goal"], data["component_universe"], int(data["iterations"])))
-
+    name = db.Column(db.String(200), nullable=False, primary_key=True)
+    owner = db.Column(db.String(24), nullable=False, primary_key=True)
 
 @app.route('/home/')
 def home():
@@ -184,7 +32,7 @@ def home():
 
 @app.route('/')
 def index():
-  return redirect('/home/')
+    return redirect('/home/')
   
 @app.route('/login/', methods=['POST'])
 def login():
@@ -196,25 +44,45 @@ def login():
     h = hashlib.new('sha256')
     h.update(credentials)
     hashedCredentials = h.hexdigest()
-    user = User.query.filter_by(HashedCredentials=hashedCredentials).first()
+    user = User.query.filter_by(Username=username).first()
 
+    #TODO: Look into sessions to make it a proper authentication scheme
+    # https://testdriven.io/blog/flask-sessions/
     if(login):
-        print("in login")
         if(user == None):
             return redirect('/home/')
+        else: #This pass check scheme is dumb. DONT USE THIS IN PROD
+            #user exists, now see if the user+password hash matches (AKA see if they typed the right password)
+            passcheck = User.query.filter_by(HashedCredentials=hashedCredentials).first()
+            if(passcheck == None):
+                return redirect('/home/')
+            else:
+                return redirect('/lists/'+username) 
+                #might need some secrety session key or something to prevent people from just going to the URL
     if(signup):
-        print("in signup")
-        if(user == None):
-            newUser = User(Username=username, HashedCredentials=hashedCredentials)
-            db.session.add(newUser)
-            db.session.commit()
-    return redirect('/lists/')
-    
-@app.route('/lists/')
-def lists():
-    return "yup"
+        if(user != None):
+            return redirect('/home/')
+        newUser = User(Username=username, HashedCredentials=hashedCredentials)
+        db.session.add(newUser)
+        db.session.commit()
+        return redirect('/lists/'+username)
+        
+@app.route('/lists/<user>')
+def lists(user):
+    lists = List.query.filter_by(owner=user).all()
+    print(lists)
+    return render_template('lists.html', username=user, lists=lists)
+
+@app.route('/newlist/', methods=['POST'])
+def newlist():
+    username = request.form.get("username")
+    newList = List(owner=username, name=request.form.get("name"))
+    db.session.add(newList)
+    db.session.commit()
+        
+    return redirect('/lists/'+username)
 
 
 if __name__ == "__main__":
-  app.run(debug=True)
+    app.run(debug=True)
 

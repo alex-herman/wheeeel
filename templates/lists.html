@@ -1,0 +1,17 @@
+{% block head %}
+<head>
+	<title>lists</title>
+	<link rel="stylesheet" href="../static/css/main.css">
+</head>
+{% endblock %}
+
+{% block body %}
+<body>
+	<form method="post" action="/newlist">
+		<input type="hidden" name="username" value="{{username}}">
+		<input class="element" type="text" id="name" name="name" placeholder="list name">
+		<input class="element" style="float: right;" type="submit" name="new" value="Create List">
+	</form> 
+	<img class="sebpic" src="../static/img/seb.png" alt="sebby">
+</body>
+{% endblock %}
