@@ -15,7 +15,10 @@
 	
 	<div class="lists">
 		{% for list in lists %}
-			{{list.name}}
+			<form method="post" action="/list/{{username}}/{{list.name}}">
+				<input type="hidden" name="username" value="{{username}}">
+				<input class="element" type="submit" name="listname" value="{{list.name}}">
+			</form>
 		{% endfor %}
 	</div>
 	

@@ -18,7 +18,8 @@ class User(db.Model):
     HashedCredentials = db.Column(db.String(64), nullable=False)
 
 class Task(db.Model):
-    List = db.Column(db.String(24), nullable=False, primary_key=True)
+    owner = db.Column(db.String(24), nullable=False, primary_key=True)
+    listname = db.Column(db.String(24), nullable=False, primary_key=True)
     name = db.Column(db.String(200), nullable=False, primary_key=True)
     desc = db.Column(db.String(400))
   
@@ -71,14 +72,21 @@ def login():
 def lists(user):
     lists = List.query.filter_by(owner=user).all()
     return render_template('lists.html', username=user, lists=lists)
+    
+@app.route('/list/<username>/<listname>', methods=['POST'])
+def list(username, listname):
+    tasks = Task.query.filter_by(owner=username, listname=listname).all()
+    return render_template('list.html', tasks=tasks)
 
 @app.route('/newlist/', methods=['POST'])
 def newlist():
     username = request.form.get("username")
     name = request.form.get("name")
-    newList = List(owner=username, name=request.form.get("name"))
-    db.session.add(newList)
-    db.session.commit()
+    
+    if(List.query.filter_by(owner=username, name=name).first() == None):
+        newList = List(owner=username, name=request.form.get("name"))
+        db.session.add(newList)
+        db.session.commit()
         
     return redirect('/lists/'+username)
 
