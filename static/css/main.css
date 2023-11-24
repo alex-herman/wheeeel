@@ -7,13 +7,6 @@ body {
 	justify-content: center;
 }
 
-.login{
-	display: flex;
-    justify-content: center;
-    align-items: center;
-	width: 100%;
-}
-
 .element{
 	background-color: rgba(255,255,255,.33);
 	border: 2px solid #ff4d01;
