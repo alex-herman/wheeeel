@@ -1,18 +1,18 @@
-function spin(){
-	let tasks = document.getElementsByClassName("textbox");
-	setTimeout(tick(0, 100), 100);
-}
-
 //https://builtin.com/software-engineering-perspectives/javascript-sleep
+const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
+
 let tasks = document.getElementsByClassName("textbox");
-function tick(i, counter){
-	console.log(i)
-	if(counter < 2000){
-		if(i == tasks.length) { i = 0 }
+const spin = async () => {
+	let sleepTime = 100
+	let i = 0
+	while(sleepTime <  2500){
+		if(i == tasks.length){ i = 0 }
+		let prevI = i - 1
+		if(i == 0){ prevI = tasks.length - 1 }
+		await sleep(sleepTime)
 		tasks[i].style.backgroundColor = "red"
-		let prevI = i-1 
-		if(i == 0){ prevI = tasks.length - 1}
 		tasks[prevI].style.backgroundColor = "rgba(255,255,255,.33)"
-		setTimeout(tick(i+1, counter*1.01))
+		sleepTime = sleepTime * 1.15
+		i = i + 1
 	}
 }
