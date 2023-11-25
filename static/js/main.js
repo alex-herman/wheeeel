@@ -3,6 +3,7 @@ function spin(){
 	setTimeout(tick(0, 100), 100);
 }
 
+//https://builtin.com/software-engineering-perspectives/javascript-sleep
 let tasks = document.getElementsByClassName("textbox");
 function tick(i, counter){
 	console.log(i)
