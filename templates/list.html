@@ -5,7 +5,7 @@
 <body>
 	<form method="post" action="/updatetasks/{{id}}">
 		{% for task in tasks %}
-			<input type="text" name="task-{{task.id}}" value="{{task.name}}"><br><br>	
+			<input class="textbox" type="text" name="task-{{task.id}}" value="{{task.name}}" placeholder="type here"><br><br>	
 		{% endfor %}
 		<input class="element" name="add" type="submit" value="add">
 		<input class="element" name="save" type="submit" value="save">
