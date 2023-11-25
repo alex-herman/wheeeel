@@ -26,6 +26,12 @@ const spin = async () => {
 	document.getElementById("spin-button").disabled = false;
 }
 
+const showDelete = async (id) => {
+	document.getElementById(id).style.display = "inline";
+	await sleep(3000)
+	document.getElementById(id).style.display = "none";
+}
+
 function holdSpinButton(){
 	
 }
