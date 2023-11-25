@@ -2,20 +2,20 @@
   <link rel="stylesheet" href="../static/css/main.css">
 </head>
 
-<div>
-	<form method="post" action="/newtask">
-		<input type="hidden" name="listid" value="{{id}}">
-		<input class="element" type="submit" value="New Task">
-	</form> 
-</div>
+<body>
+	<div>
+		<form method="post" action="/newtask">
+			<input type="hidden" name="listid" value="{{id}}">
+			<input class="element" type="submit" value="New Task">
+		</form> 
+	</div>
 
-{% for task in tasks %}
-	{{task.name}}
-	{{task.desc}}
-	<form method="post" action="/updatetask/{{id}}">
-		<input class="element" type="submit" value="update">
+	<form method="post" action="/savetasks/{{id}}">
+		{% for task in tasks %}
+			<input type="text" name="{{task.id}}" value="{{task.name}}"><br><br>	
+		{% endfor %}
+		<input class="element" type="submit" value="save">
 	</form>
-{% endfor %}
 
-<img class="sebpic" src="../static/img/seb.png" alt="sebby">
-
+	<img class="sebpic" src="../static/img/seb.png" alt="sebby">
+</body>

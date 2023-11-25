@@ -22,14 +22,9 @@ class List(db.Model):
     id = db.Column(db.String(7), nullable=False, primary_key=True)
 
 
-@app.route('/home/')
-def home():
-    return render_template('home.html')
-
-
 @app.route('/')
 def index():
-    return redirect('/home/')
+    return redirect('/newlist')
   
   
 @app.route('/list/<id>')
@@ -39,7 +34,7 @@ def list(id):
     return render_template('list.html', id=id, tasks=tasks)
    
    
-@app.route('/newlist', methods=['POST'])
+@app.route('/newlist')
 def newlist():
     uid = str(uuid.uuid4())
     id = uid[0:3] + "-" + uid[3:6]
@@ -60,6 +55,14 @@ def newtask():
     newTask = Task(id=str(uuid.uuid4()), listid=listid, name="", desc="")
     db.session.add(newTask)
     db.session.commit()
+    return redirect('/list/'+listid)
+    
+    
+@app.route('/savetasks/<listid>', methods=['POST'])
+def savetasks(listid):
+  
+    #db.session.add(newTask)
+    #db.session.commit()
     return redirect('/list/'+listid)
 
 
