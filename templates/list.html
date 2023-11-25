@@ -6,11 +6,15 @@
 <body>
 	<form class="tasksform" method="post" action="/updatetasks/{{id}}">
 		{% for task in tasks %}
-			<input class="textbox" type="text" name="task-{{task.id}}" value="{{task.name}}" placeholder="type here"><br><br>	
+			<input class="textbox" type="text" name="task-{{task.id}}" value="{{task.name}}" placeholder="type here">
+			<button class="element" id="delete" name="delete" value="{{task.id}}">x</button>
+			<br><br>	
 		{% endfor %}
-		<input class="element" name="add" type="submit" value="add">
-		<input class="element" name="save" type="submit" value="save">
-		<button class="spin-button" type="button" class="spin-button" onclick="spin()">spin!</button>
+		<div class="controls">
+			<input class="element" name="add" type="submit" value="add">
+			<input class="element" name="save" type="submit" value="save">
+			<button class="spin-button"  id="spin-button" type="button" onclick="spin()">spin!</button>
+		</div>
 	</form>
 	
 	<img class="sebpic" src="../static/img/seb.png" alt="sebby">

@@ -51,6 +51,7 @@ def newlist():
 def updatetasks(listid):
     add = request.form.get("add")
     save = request.form.get("save")
+    delete = request.form.get("delete")
     
     if(add != None):
         newTask = Task(id=str(uuid.uuid4()), listid=listid, name="", desc="")
@@ -64,7 +65,12 @@ def updatetasks(listid):
                 id = key[5:]
                 Task.query.filter_by(id=id).first().name = text
         db.session.commit()
-        
+    
+    if(delete != None):
+        task = Task.query.filter_by(id=delete).first()
+        db.session.delete(task)
+        db.session.commit()
+    
     return redirect('/list/'+listid)
     
 
