@@ -6,7 +6,7 @@
 <body>
 	<form class="tasksform" method="post" action="/updatetasks/{{id}}">
 		{% for task in tasks %}
-			<input class="textbox" type="text" name="task-{{task.id}}" value="{{task.name}}" placeholder="type here" onfocus="showDelete('delete-{{task.id}}')">
+			<input class="textbox" type="text" name="task-{{task.id}}" value="{{task.name}}" placeholder="type here" onfocus="showDelete('delete-{{task.id}}')" onfocusout="hideDelete('delete-{{task.id}}')">
 			<button hidden class="element" id="delete-{{task.id}}" name="delete" value="{{task.id}}">x</button>
 			<br><br>
 		{% endfor %}
