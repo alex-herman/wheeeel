@@ -3,19 +3,13 @@
 </head>
 
 <body>
-	<div>
-		<form method="post" action="/newtask">
-			<input type="hidden" name="listid" value="{{id}}">
-			<input class="element" type="submit" value="New Task">
-		</form> 
-	</div>
-
-	<form method="post" action="/savetasks/{{id}}">
+	<form method="post" action="/updatetasks/{{id}}">
 		{% for task in tasks %}
-			<input type="text" name="{{task.id}}" value="{{task.name}}"><br><br>	
+			<input type="text" name="task-{{task.id}}" value="{{task.name}}"><br><br>	
 		{% endfor %}
-		<input class="element" type="submit" value="save">
+		<input class="element" name="add" type="submit" value="add">
+		<input class="element" name="save" type="submit" value="save">
 	</form>
-
+	
 	<img class="sebpic" src="../static/img/seb.png" alt="sebby">
 </body>

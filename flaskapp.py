@@ -30,7 +30,6 @@ def index():
 @app.route('/list/<id>')
 def list(id):
     tasks = Task.query.filter_by(listid=id).all() 
-    print(tasks)
     return render_template('list.html', id=id, tasks=tasks)
    
    
@@ -48,22 +47,26 @@ def newlist():
     return redirect('/list/'+id)
     
     
-@app.route('/newtask', methods=['POST'])
-def newtask():
-    listid = request.form.get("listid")
+@app.route('/updatetasks/<listid>', methods=['POST'])
+def updatetasks(listid):
+    add = request.form.get("add")
+    save = request.form.get("save")
     
-    newTask = Task(id=str(uuid.uuid4()), listid=listid, name="", desc="")
-    db.session.add(newTask)
-    db.session.commit()
+    if(add != None):
+        newTask = Task(id=str(uuid.uuid4()), listid=listid, name="", desc="")
+        db.session.add(newTask)
+        db.session.commit()
+        
+    if(save != None):
+        for key in request.form.to_dict().keys():
+            if(str(key)[0:4] == "task"):
+                text = request.form.get(key)
+                id = key[5:]
+                Task.query.filter_by(id=id).first().name = text
+        db.session.commit()
+        
     return redirect('/list/'+listid)
     
-    
-@app.route('/savetasks/<listid>', methods=['POST'])
-def savetasks(listid):
-  
-    #db.session.add(newTask)
-    #db.session.commit()
-    return redirect('/list/'+listid)
 
 
 if __name__ == "__main__":
