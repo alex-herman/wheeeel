@@ -18,6 +18,7 @@ body {
 	background-color: rgba(255,255,255,.33);
 	border: 2px solid black;
 	border-radius: 8px;
+	width: 200px;
 }
 
 .spin-button{
@@ -33,6 +34,10 @@ body {
 	position: fixed;
 	bottom: 0px;
 	z-index: -999;
+}
+
+.tasksform{
+	width: 200px;
 }
 
 
