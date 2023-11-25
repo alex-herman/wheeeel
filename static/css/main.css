@@ -20,6 +20,15 @@ body {
 	border-radius: 8px;
 }
 
+.spin-button{
+	width: 66px;
+	height: 66px;
+	float: right;
+	background-color: rgba(255,255,255,.33);
+	border: 2px solid #ff4d01;
+	border-radius: 10px;
+}
+
 .sebpic{
 	position: fixed;
 	bottom: 0px;
